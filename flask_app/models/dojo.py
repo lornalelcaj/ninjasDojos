@@ -30,18 +30,10 @@ class Dojo:
 
     @classmethod
     def get_one_with_ninjas(cls, data ):
-        query = "SELECT * FROM dojos LEFT JOIN ninjas on dojos.id = ninjas.dojo_id WHERE dojos.id = %(id)s;"
+        query = "SELECT first_name, last_name, age FROM dojos LEFT JOIN ninjas on dojos.id = ninjas.dojos_id WHERE dojos.id = %(id)s;"
         results = connectToMySQL('dojos_and_ninjas2').query_db(query,data)
         print(results)
-        dojo = cls(results[0])
+        dojo = []
         for row in results:
-            n = {
-                'id': row['ninjas.id'],
-                'first_name': row['first_name'],
-                'last_name': row['last_name'],
-                'age': row['age'],
-                'created_at': row['ninjas.created_at'],
-                'updated_at': row['ninjas.updated_at']
-            }
-            dojo.ninjas.append( Ninja(n) )
+            dojo.append( row )
         return dojo
